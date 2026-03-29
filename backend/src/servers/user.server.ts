@@ -4,7 +4,7 @@ import App from "../app";
 import 'dotenv/config'
 
 const config: AppConfig = {
-  modules: [{ name: 'users', enabled: true, routesPrefix: '/api/v1/users' }],
+  modules: [{ name: 'ai', enabled: true, routesPrefix: '/api/v1/ai' }],
   server: {
     port: parseInt(process.env.PORT || '3001'),
     enableCors: true,

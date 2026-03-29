@@ -7,6 +7,6 @@ const router = Router();
 const aiController = container.resolve(AiController);
 const uploadResume = createUploadMiddleware('document');
 
-router.post('/ai/evaluate-resume', uploadResume.single('resume'), aiController.evaluateResume);
+router.post('/evaluate-resume', uploadResume.single('resume'), aiController.evaluateResume);
 
 export default router;

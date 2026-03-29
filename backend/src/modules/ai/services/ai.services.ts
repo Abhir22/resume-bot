@@ -4,7 +4,7 @@ import {
   IAiService,
   ResumeEvaluationInput,
   ResumeEvaluationResult
-} from '@/modules/users/services/interfaces/ai.service.interface';
+} from '@/modules/ai/services/interface/ai.service.interface';
 import {
   BadRequestException,
   InternalServerErrorException

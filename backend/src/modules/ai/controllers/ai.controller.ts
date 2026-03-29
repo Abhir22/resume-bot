@@ -3,8 +3,8 @@ import { Request, Response } from 'express';
 import { asyncHandler } from '@/core/middlewares/error.middleware';
 import { SuccessResponse } from '@/core/utils/api-response';
 import { ValidationUtil } from '@/core/utils/validate-and-transform';
-import { aiValidation } from '@/modules/users/validations/ai.validation';
-import { IAiService } from '@/modules/users/services/interfaces/ai.service.interface';
+import { aiValidation } from '@/modules/ai/validation/ai.validation';
+import { IAiService } from '@/modules/ai/services/interface/ai.service.interface';
 
 @injectable()
 export class AiController {

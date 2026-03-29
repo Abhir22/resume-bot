@@ -2,7 +2,7 @@
 import './App.css'
 
 const API_BASE =
-  import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api/v1/users'
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api/v1/'
 
 function App() {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
@@ -62,7 +62,7 @@ function App() {
       const formData = new FormData()
       formData.append('resume', targetFile)
 
-      const response = await fetch(`${API_BASE}/users/ai/evaluate-resume`, {
+      const response = await fetch(`${API_BASE}/ai/evaluate-resume`, {
         method: 'POST',
         body: formData
       })
@@ -103,13 +103,12 @@ function App() {
     <div className="app">
       <header className="topbar">
         <div className="brand">
-          <span className="brand-mark">RP</span>
+          <span className="brand-mark">RB</span>
           <div>
-            <p className="brand-title">Resume Pilot</p>
+            <p className="brand-title">Resume Bot</p>
             <p className="brand-subtitle">AI resume evaluation studio</p>
           </div>
         </div>
-        <button className="ghost-button">View sample report</button>
       </header>
 
       <section className="hero">
@@ -129,20 +128,6 @@ function App() {
             <button className="secondary" onClick={handleChooseFile}>
               Upload resume
             </button>
-          </div>
-          <div className="trust-row">
-            <div>
-              <strong>1,800+</strong>
-              <span>resumes improved</span>
-            </div>
-            <div>
-              <strong>92%</strong>
-              <span>ATS match lift</span>
-            </div>
-            <div>
-              <strong>4.9</strong>
-              <span>average rating</span>
-            </div>
           </div>
         </div>
 
@@ -193,17 +178,6 @@ function App() {
               </button>
             </div>
 
-            <div className="progress">
-              <div className={`dot ${status !== 'idle' ? 'active' : ''}`}>
-                Upload
-              </div>
-              <div className={`dot ${status === 'evaluating' ? 'active' : ''}`}>
-                Parsing
-              </div>
-              <div className={`dot ${status === 'done' ? 'active' : ''}`}>
-                Feedback
-              </div>
-            </div>
           </div>
 
           <div className="feedback-card">
@@ -266,10 +240,6 @@ function App() {
                 <p className="footer-value">
                   {summary || 'Upload a resume to generate a summary.'}
                 </p>
-              </div>
-              <div>
-                <p className="footer-label">Focus area</p>
-                <p className="footer-value">Impact metrics</p>
               </div>
             </div>
           </div>
