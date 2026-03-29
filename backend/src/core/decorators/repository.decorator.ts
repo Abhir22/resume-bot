@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { BadRequestException } from "../exceptions/http.exception";
 import { DatabaseException } from "../exceptions/database.exception";
 import { setFunctionName } from "../utils/request-context";
@@ -14,10 +14,10 @@ export function Repository() {
             const original = Reflect.get(target, prop, receiver);
 
             if (typeof original === 'function' && prop !== 'constructor') {
-              return async (...methodArgs: any[]) => {
+              return async (...methodArgs: unknown[]) => {
                 try {
                   const methodName = `${OriginalConstructor.name}.${String(prop)}`;
-                  console.log(`🎯 Decorator intercepted: ${methodName}`);
+                  console.log(`ðŸŽ¯ Decorator intercepted: ${methodName}`);
                   setFunctionName(methodName); // <-- context tracking
                   return await original.apply(target, methodArgs);
                 } catch (error) {
@@ -36,7 +36,7 @@ export function Repository() {
 
 
 
-function handleCaughtError(error: unknown, className: string, methodName: string, args: any[]) {
+function handleCaughtError(error: unknown, className: string, methodName: string, args: unknown[]) {
   if (error instanceof BadRequestException) {
     throw error;
   }
@@ -45,21 +45,21 @@ function handleCaughtError(error: unknown, className: string, methodName: string
   throw createDatabaseException(error, errorContext);
 }
 
-function createErrorContext(className: string, methodName: string, args: any[], error: unknown): Record<string, unknown> {
+function createErrorContext(className: string, methodName: string, args: unknown[], error: unknown): Record<string, unknown> {
   const context: Record<string, unknown> = {
     repository: className,
     method: methodName,
     arguments: args,
   };
 
-  if (error instanceof Prisma.PrismaClientKnownRequestError) {
+  if (error instanceof PrismaClientKnownRequestError) {
     enhanceWithPrismaErrorDetails(context, error);
   }
 
   return context;
 }
 
-function enhanceWithPrismaErrorDetails(context: Record<string, unknown>, error: Prisma.PrismaClientKnownRequestError) {
+function enhanceWithPrismaErrorDetails(context: Record<string, unknown>, error: PrismaClientKnownRequestError) {
   context.prismaCode = error.code;
   context.prismaMeta = error.meta;
   

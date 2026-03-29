@@ -1,4 +1,5 @@
 // src/app.ts
+import 'openai/shims/web'
 import 'dotenv/config'
 import express from 'express';
 import { loadRoutes } from './loaders/routes';

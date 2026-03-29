@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import logger from '../core/utils/logger';
 import { asyncLocalStorage } from '../core/utils/request-context';
 
@@ -11,24 +11,24 @@ export const prisma = new PrismaClient({
 });
 
 if (shouldLogPrismaQueries) {
-  prisma.$on('query', (e) => {
+  prisma.$on('query', (e: Prisma.QueryEvent) => {
     const store = asyncLocalStorage.getStore();
 
     const contextInfo = store
-      ? `🧵 Context:
-    📌 Request ID: ${store.requestId}
-    👤 User ID:    ${store.userId ?? 'N/A'}
-    🌐 Route:      ${store.method} ${store.route}
-    🕒 Timestamp:  ${store.timestamp}
+      ? `ðŸ§µ Context:
+    ðŸ“Œ Request ID: ${store.requestId}
+    ðŸ‘¤ User ID:    ${store.userId ?? 'N/A'}
+    ðŸŒ Route:      ${store.method} ${store.route}
+    ðŸ•’ Timestamp:  ${store.timestamp}
     #  Function Name: ${store.functionName
        }`
-      : '🔍 No request context found (outside request scope)';
+      : 'ðŸ” No request context found (outside request scope)';
 
     const interpolatedQuery = interpolateQuery(e.query, e.params);
 
-    logger.info(`\n🧩 Prisma Query Log:
-  📄 Query:    ${interpolatedQuery}
-  ⏱ Duration: ${e.duration}ms
+    logger.info(`\nðŸ§© Prisma Query Log:
+  ðŸ“„ Query:    ${interpolatedQuery}
+  â± Duration: ${e.duration}ms
   ${contextInfo}\n`);
   });
 }
@@ -37,7 +37,7 @@ if (shouldLogPrismaQueries) {
 // Utility function to interpolate params into query string
 function interpolateQuery(query: string, params: string): string {
   try {
-    const parsedParams = JSON.parse(params);
+    const parsedParams: unknown = JSON.parse(params);
     if (!Array.isArray(parsedParams)) return query;
 
     let i = 0;
@@ -50,11 +50,11 @@ function interpolateQuery(query: string, params: string): string {
   }
 }
 
-function formatValue(value: any): string {
+function formatValue(value: unknown): string {
   if (value === null) return 'NULL';
   if (typeof value === 'string') return `'${value}'`;
   if (Array.isArray(value)) return `(${value.map(formatValue).join(', ')})`;
-  return value.toString();
+  return String(value);
 }
 
 

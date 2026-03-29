@@ -27,6 +27,8 @@ import { IOTPService } from './services/interfaces/otp.service.interface';
 import { OTPService } from './services/otp.service';
 import { IOTPRepository } from './repositories/interfaces/otp.repository.interface';
 import { OTPRepository } from './repositories/otp.repository';
+import { IAiService } from './services/interfaces/ai.service.interface';
+import { AiService } from './services/ai.services';
 
 export const registerDependencies = () => {
   container.register<IUserService>('IUserService', { useClass: UserService });
@@ -43,6 +45,7 @@ export const registerDependencies = () => {
   container.register<IProjectRepository>('IProjectRepository', { useClass: ProjectRepository });
   container.register<IOTPService>('IOTPService', { useClass: OTPService });
   container.register<IOTPRepository>('IOTPRepository', { useClass: OTPRepository });
+  container.register<IAiService>('IAiService', { useClass: AiService });
   console.log('All module dependencies registered');
 };
 
