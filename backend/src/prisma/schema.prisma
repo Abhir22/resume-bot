@@ -1,0 +1,100 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id        String    @id @default(uuid())
+  email     String @unique
+  name      String?
+  password  String?
+  mobile    String? @unique
+  avatar    String?
+  githubId  String? @unique
+  googleId  String? @unique
+  emailVerified Boolean @default(false)
+  mobileVerified Boolean @default(false)
+  isActive  Boolean @default(true)
+  lastLoginAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+}
+
+
+model Auth {
+  id        String    @id @default(uuid())
+  userId    String @unique
+  github    Boolean @default(false)
+  gmail     Boolean @default(false)
+  email_otp Boolean @default(false)
+  is_opted  Boolean @default(false)
+  createdAt DateTime @default(now())
+
+}
+
+
+model Resume {
+  id        String    @id @default(uuid())
+  userId    String
+  filename  String
+  feedback  String?
+  dataKeep  Boolean @default(true)
+  createdAt DateTime @default(now())
+
+}
+
+
+model Education {
+  id        String    @id @default(uuid())
+  resumeId  String
+  school    String
+  degree    String
+  field     String?
+  startDate String?
+  endDate   String?
+  createdAt DateTime @default(now())
+
+}
+
+
+model Experience {
+  id        String    @id @default(uuid())
+  resumeId  String
+  company   String
+  role      String
+  description String?
+  startDate String?
+  endDate   String?
+  createdAt DateTime @default(now())
+
+}
+
+
+model Project {
+  id        String    @id @default(uuid())
+  resumeId  String
+  title     String
+  description String?
+  techStack String?
+  createdAt DateTime @default(now())
+
+}
+
+
+model OTP {
+  id        String    @id @default(uuid())
+  email     String?
+  mobile    String?
+  code      String
+  expiresAt DateTime
+  attempts  Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+}

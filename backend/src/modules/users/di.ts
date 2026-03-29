@@ -1,0 +1,51 @@
+import { container } from 'tsyringe';
+import { IUserService } from './services/interfaces/user.service.interface';
+import { UserService } from './services/user.service';
+import { IUserRepository } from './repositories/interfaces/user.repository.interface';
+import { UserRepository } from './repositories/user.repository';
+import { IAuthService } from './services/interfaces/auth.service.interface';
+import { AuthService } from './services/auth.service';
+import { IAuthRepository } from './repositories/interfaces/auth.repository.interface';
+import { AuthRepository } from './repositories/auth.repository';
+import { IResumeService } from './services/interfaces/resume.service.interface';
+import { ResumeService } from './services/resume.service';
+import { IResumeRepository } from './repositories/interfaces/resume.repository.interface';
+import { ResumeRepository } from './repositories/resume.repository';
+import { IEducationService } from './services/interfaces/education.service.interface';
+import { EducationService } from './services/education.service';
+import { IEducationRepository } from './repositories/interfaces/education.repository.interface';
+import { EducationRepository } from './repositories/education.repository';
+import { IExperienceService } from './services/interfaces/experience.service.interface';
+import { ExperienceService } from './services/experience.service';
+import { IExperienceRepository } from './repositories/interfaces/experience.repository.interface';
+import { ExperienceRepository } from './repositories/experience.repository';
+import { IProjectService } from './services/interfaces/project.service.interface';
+import { ProjectService } from './services/project.service';
+import { IProjectRepository } from './repositories/interfaces/project.repository.interface';
+import { ProjectRepository } from './repositories/project.repository';
+import { IOTPService } from './services/interfaces/otp.service.interface';
+import { OTPService } from './services/otp.service';
+import { IOTPRepository } from './repositories/interfaces/otp.repository.interface';
+import { OTPRepository } from './repositories/otp.repository';
+
+export const registerDependencies = () => {
+  container.register<IUserService>('IUserService', { useClass: UserService });
+  container.register<IUserRepository>('IUserRepository', { useClass: UserRepository });
+  container.register<IAuthService>('IAuthService', { useClass: AuthService });
+  container.register<IAuthRepository>('IAuthRepository', { useClass: AuthRepository });
+  container.register<IResumeService>('IResumeService', { useClass: ResumeService });
+  container.register<IResumeRepository>('IResumeRepository', { useClass: ResumeRepository });
+  container.register<IEducationService>('IEducationService', { useClass: EducationService });
+  container.register<IEducationRepository>('IEducationRepository', { useClass: EducationRepository });
+  container.register<IExperienceService>('IExperienceService', { useClass: ExperienceService });
+  container.register<IExperienceRepository>('IExperienceRepository', { useClass: ExperienceRepository });
+  container.register<IProjectService>('IProjectService', { useClass: ProjectService });
+  container.register<IProjectRepository>('IProjectRepository', { useClass: ProjectRepository });
+  container.register<IOTPService>('IOTPService', { useClass: OTPService });
+  container.register<IOTPRepository>('IOTPRepository', { useClass: OTPRepository });
+  console.log('All module dependencies registered');
+};
+
+export const clearDependencies = () => {
+  container.reset();
+};
